@@ -9,15 +9,23 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket client) {
         ClientHandler.clientDialog = client;
-        clock = new Clock(new DefaultTime(0, 0, 0));
+        int index = 0;
+
+        try {
+            out = new DataOutputStream(clientDialog.getOutputStream());
+            in  = new DataInputStream(clientDialog.getInputStream());
+
+            index = in.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        clock = new Clock(new DefaultTime(0, 0, 0), index);
     }
 
     @Override
     public void run() {
-
         try {
-            DataOutputStream out = new DataOutputStream(clientDialog.getOutputStream());
-            DataInputStream in   = new DataInputStream(clientDialog.getInputStream());
 
             while (!clientDialog.isClosed()) {
                 char operation = in.readChar();
@@ -67,6 +75,8 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    private DataOutputStream out;
+    private DataInputStream in;
     private static Socket clientDialog;
     private Clock clock;
 }

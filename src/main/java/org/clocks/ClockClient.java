@@ -9,12 +9,14 @@ public class ClockClient {
 
     static Socket socket;
 
-    public ClockClient() {
+    public ClockClient(int index) {
         try {
             socket = new Socket("localhost", 3345);
 
             os = new DataOutputStream(socket.getOutputStream());
             is = new DataInputStream(socket.getInputStream());
+
+            os.writeInt(index);
         } catch (IOException e) {
             e.printStackTrace();
         }

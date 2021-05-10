@@ -1,10 +1,17 @@
 package org.clocks;
 
-public class Clock {
-    public static int max_alarm_count = 100;
 
-    public Clock(IClockTime time) {
-        time_ = time;
+import java.sql.*;
+
+public class Clock {
+    public Clock(DefaultTime time, int index) {
+        time_  = time;
+        index_ = index;
+        try {
+            alarms_ = new AlarmDBClient(index_);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public String get_time() {
@@ -12,19 +19,21 @@ public class Clock {
     }
 
     public String get_alarm_messages(String separator) {
-        StringBuilder message = new StringBuilder("\n");
-        for (int i = 0; i < alarms_count_; i++) {
-            if (time_.get_time().equals(alarms_[i].get_time().get_initial_time())) {
-                message.append(alarms_[i].ring()).append(separator);
-            }
+        String result = "";
+        try {
+            result = alarms_.ring(time_, separator);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-
-        return message.toString();
+        return result;
     }
 
     public void set_alarm(DefaultTime time, String message) {
-        alarms_[alarms_count_] = new Alarm(time, message);
-        alarms_count_ += 1;
+        try {
+            alarms_.set_alarm(time, message);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void pause() {
@@ -37,7 +46,7 @@ public class Clock {
         }
     }
 
-    public void set_time(IClockTime time) {
+    public void set_time(DefaultTime time) {
         time_ = time;
     }
 
@@ -47,8 +56,8 @@ public class Clock {
     final static public char get_time    = 't';
     final static public char get_message = 'm';
 
-    private final IAlarm[]    alarms_       = new IAlarm[max_alarm_count];
-    private       IClockTime  time_         = new DefaultTime();
-    private       int         alarms_count_ = 0;
-    private       time_status status        = time_status.RUN;
+    private AlarmDBClient alarms_;
+    private DefaultTime   time_;
+    private int           index_;
+    private time_status   status = time_status.RUN;
 }
