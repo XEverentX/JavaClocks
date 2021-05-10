@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0"
+            fx:id="gridPane">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="20" />
+        <ColumnConstraints percentWidth="20" />
+        <ColumnConstraints percentWidth="20" />
+        <ColumnConstraints percentWidth="20" />
+        <ColumnConstraints percentWidth="20" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="100" />
+    </rowConstraints>
+
+    <VBox spacing="30" GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="menu" style="-fx-border-color:black;-fx-border-width: 0.25 1 0.25 1;">
+        <Label text="Clock Menu" style="-fx-font-size:16; -fx-font-family: 'Helvetica';"/>
+        <Button text="Add Clock" onAction="#add_clock"/>
+        <Label text="Start Time:"/>
+        <HBox>
+            <TextField promptText="Hours" fx:id="menu_hour" />
+            <TextField promptText="Minutes" fx:id="menu_min" />
+            <TextField promptText="Seconds" fx:id="menu_sec" />
+        </HBox>
+    </VBox>
+
+</GridPane>
+
+
