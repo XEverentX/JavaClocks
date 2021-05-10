@@ -11,7 +11,7 @@ public class ClockUI {
 
     public ClockUI(IClockTime time, int index) {
 
-        clock_ = new ClockClient(index_);
+        clock_ = new ClockClient(index);
         clock_.set_time(time);
 
         time_  = new Label(time.get_time());

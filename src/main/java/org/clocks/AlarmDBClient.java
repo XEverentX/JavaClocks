@@ -6,7 +6,7 @@ import java.sql.*;
 public class AlarmDBClient {
     AlarmDBClient(int index) throws InvalidParameterException, SQLException {
         if (index < 0 || index > 3) throw new InvalidParameterException("App supports only 4 clocks at the same time");
-        index_ = index + 1;
+        index_ = index;
 
         connection = DriverManager.getConnection(DB_URL);
         if(connection != null)
